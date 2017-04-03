@@ -3,12 +3,16 @@
 var $saveButton = $('.save-button').on('click', function() {
   var $title = $('#title').val()
   var $body = $('#body').val()
+  var $quality = $('.rating').val()
   var $id = Date.now()
   var newIdea = new CardObject($id, $title, $body, $quality)
   prependCard(newIdea)
 })
 
 function prependCard(newIdea) {
+  var $title = newIdea.title
+  var $body = newIdea.body
+  var $quality = newIdea.quality
   $('.card-container').prepend(`<article class="idea-card">
       <button type="button" class="delete"></button>
       <h2>${$title}</h2>
@@ -16,7 +20,7 @@ function prependCard(newIdea) {
       <div class="quality-container">
         <button type="button" class="up-vote"></button>
         <button type="button" class="down-vote"></button>
-        <p class="idea-quality"><span class="quality-font">quality:</span>${$quality}</p>
+        <p class="idea-quality"><span class="quality-font">quality: </span>${$quality}</p>
       </div>
     </article>`)
 }
