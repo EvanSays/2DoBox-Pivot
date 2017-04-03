@@ -7,9 +7,11 @@ var $saveButton = $('.save-button').on('click', function() {
   var $id = Date.now()
   var newIdea = new CardObject($id, $title, $body, $quality)
   prependCard(newIdea)
+  clearInputs()
 })
 
 function prependCard(newIdea) {
+  var $id = newIdea.id
   var $title = newIdea.title
   var $body = newIdea.body
   var $quality = newIdea.quality
@@ -31,3 +33,12 @@ function CardObject(id, title, body, quality) {
   this.body = body
   this.quality = "swill"
 }
+
+function clearInputs() {
+   $('#title').val('')
+   $('#body').val('')
+}
+
+  $('.card-container').on('click', '.delete', function() {
+      $(this).closest('.idea-card').remove()
+  })
