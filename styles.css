@@ -1,40 +1,41 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
-  color: #939598;
+    font-family: 'Open Sans', sans-serif;
+    color: #939598;
 }
 
 header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 0;
-  background: #e5f3f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+    background: #e5f3f2;
 }
 
 h1 {
-font-family: 'Roboto Slab', serif;
-font-size: 40px;
-color: #00a79d;
+    font-family: 'Roboto Slab', serif;
+    font-size: 40px;
+    color: #00a79d;
 }
 
 h2 {
-  font-family: 'Roboto Slab', serif;
-  color: #6d6e71;
-  display: inline-block;
-  font-size: 22px;
-  padding-bottom: 15px;
-  width: 90%;
+    font-family: 'Roboto Slab', serif;
+    color: #6d6e71;
+    display: inline-block;
+    font-size: 22px;
+    padding-bottom: 15px;
+    width: 90%;
 }
 
 .header {
-  color: #6d6e71;
+    color: #6d6e71;
 }
 
 .top-container {
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,18 +46,19 @@ h2 {
 }
 
 .save-button {
-  background: #00a79d;
-  color: #fff;
-  border: none;
+    background: #00a79d;
+    color: #fff;
+    border: none;
 }
 
 .save-button:disabled {
-  background:#989898;
+    background: #989898;
 }
 
 .save-button:hover {
-  background: #045e55;
+    background: #045e55;
 }
+
 
 input,
 textarea,
@@ -74,17 +76,17 @@ textarea {
 }
 
 .card-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
 }
 
 .idea-card {
@@ -108,54 +110,55 @@ textarea {
 }
 
 .delete {
-  background: url("assets/delete.svg") no-repeat;
-  background-size: cover;
-  float: right;
-  vertical-align: top;
+    background: url("assets/delete.svg") no-repeat;
+    background-size: cover;
+    float: right;
+    vertical-align: top;
 }
 
 .delete:hover {
-  background: url("assets/delete-hover.svg") no-repeat;
-  background-size: cover;
+    background: url("assets/delete-hover.svg") no-repeat;
+    background-size: cover;
 }
 
 p {
-  padding-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 .up-vote {
-  background: url("assets/upvote.svg") no-repeat;
-  background-size: cover;
+    background: url("assets/upvote.svg") no-repeat;
+    background-size: cover;
+    margin-right: 10px;
 }
 
 .up-vote:hover {
-  background: url("assets/upvote-hover.svg") no-repeat;
-  background-size: cover;
+    background: url("assets/upvote-hover.svg") no-repeat;
+    background-size: cover;
 }
 
 .down-vote {
-  background: url("assets/downvote.svg") no-repeat;
-  background-size: cover;
+    background: url("assets/downvote.svg") no-repeat;
+    background-size: cover;
+    margin-right: 10px;
 }
 
 .down-vote:hover {
-  background: url("assets/downvote-hover.svg") no-repeat;
-  background-size: cover;
+    background: url("assets/downvote-hover.svg") no-repeat;
+    background-size: cover;
 }
 
 .quality-container {
-  display: flex;
-  width: 175px;
-  justify-content: space-between;
+    width: 210px;
 }
 
 .idea-quality {
-  padding-top: 2px;
+  display: inline;
+    padding-top: 2px;
 }
 
 .quality-font {
-  font-family: 'Roboto Slab', serif;
-  color: #6d6e71;
+    font-family: 'Roboto Slab', serif;
+    color: #6d6e71;
 }
 
 /*media queries*/
