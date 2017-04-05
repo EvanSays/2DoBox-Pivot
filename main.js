@@ -78,13 +78,15 @@ function getIdeas() {
 
 $('.card-container').on('click', '.up-vote', function() {
     var rating = ($(this).siblings("p").children(".rating"))
+    var thisButton = $(this)
     switch (rating.text()) {
         case 'swill':
             rating.text('plausible')
-            updateArrayQuality();
+            updateArrayQuality(thisButton, rating);
             break;
         case 'plausible':
             rating.text('genius')
+            updateArrayQuality(thisButton, rating)
             break;
         case 'genius':
             break
@@ -93,20 +95,24 @@ $('.card-container').on('click', '.up-vote', function() {
 
 $('.card-container').on('click', '.down-vote', function() {
     var rating = ($(this).siblings("p").children(".rating"))
+    var thisButton = $(this)
     switch (rating.text()) {
         case 'genius':
             rating.text('plausible')
+            updateArrayQuality(thisButton, rating)
             break;
         case 'plausible':
             rating.text('swill')
+            updateArrayQuality(thisButton, rating)
             break;
         case 'swill':
             break
     }
 })
 
-function updateArrayQuality() {
-  var cardID = $(this).closest('.idea-card').attr('id');
+function updateArrayQuality(thisButton, rating) {
+  var cardID = thisButton.closest('.idea-card').attr('id');
+  console.log(cardID)
   ideaArray.forEach(function(idea, index) {
     if (cardID == idea.id) {
       console.log('got it')
