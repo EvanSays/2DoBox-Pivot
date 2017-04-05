@@ -37,7 +37,6 @@ h2 {
 .top-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background: #e5f3f2;
   padding-bottom: 30px;
@@ -60,12 +59,18 @@ h2 {
 }
 
 input,
+textarea,
 .save-button {
   width: 60%;
   height: 35px;
   font-size: 24px;
   padding-left: 5px;
   max-width: 750px;
+}
+
+input,
+textarea {
+  border: 1px solid #A9A9A9;
 }
 
 .card-container {
@@ -157,8 +162,23 @@ p {
 
 @media (max-width: 700px) {
  input,
+ textarea,
  .save-button,
  .idea-card {
    width: 85%;
+ }
+}
+
+@media (max-width: 400px) {
+.top-container {
+  height: 40vh;
+}
+
+.header {
+  padding: 30px 0;
+}
+
+#body {
+   height: 120px;
  }
 }
