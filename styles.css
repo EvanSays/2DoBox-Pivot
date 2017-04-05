@@ -61,10 +61,11 @@ h2 {
 
 input,
 .save-button {
-  width: 50%;
+  width: 60%;
   height: 35px;
   font-size: 24px;
   padding-left: 5px;
+  max-width: 750px;
 }
 
 .card-container {
@@ -83,7 +84,8 @@ input,
 
 .idea-card {
   padding-bottom: 10px;
-  width: 50%;
+  width: 60%;
+  max-width: 750px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-all;
@@ -149,4 +151,14 @@ p {
 .quality-font {
   font-family: 'Roboto Slab', serif;
   color: #6d6e71;
+}
+
+/*media queries*/
+
+@media (max-width: 700px) {
+ input,
+ .save-button,
+ .idea-card {
+   width: 85%;
+ }
 }
