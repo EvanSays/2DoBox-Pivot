@@ -35,14 +35,14 @@ h2 {
 }
 
 .top-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #e5f3f2;
-    padding-bottom: 30px;
-    height: 25vh;
-    justify-content: space-between;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #e5f3f2;
+  padding-bottom: 30px;
+  height: 25vh;
+  justify-content: space-between;
 }
 
 .save-button {
@@ -59,11 +59,20 @@ h2 {
     background: #045e55;
 }
 
-input, .save-button {
-    width: 50%;
-    height: 35px;
-    font-size: 24px;
-    padding-left: 5px;
+
+input,
+textarea,
+.save-button {
+  width: 60%;
+  height: 35px;
+  font-size: 24px;
+  padding-left: 5px;
+  max-width: 750px;
+}
+
+input,
+textarea {
+  border: 1px solid #A9A9A9;
 }
 
 .card-container {
@@ -81,20 +90,23 @@ input, .save-button {
 }
 
 .idea-card {
-    padding-bottom: 10px;
-    width: 50%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-all;
-    word-break: break-word;
-    border-bottom: 1px solid #d1d3d4;
-    padding-top: 30px;
+  padding-bottom: 10px;
+  width: 60%;
+  max-width: 750px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+  border-bottom: 1px solid #d1d3d4;
+  padding-top: 30px;
 }
 
-.delete, .up-vote, .down-vote {
-    width: 25px;
-    height: 25px;
-    border: none;
+.delete,
+.up-vote,
+.down-vote {
+  width: 25px;
+  height: 25px;
+  border: none;
 }
 
 .delete {
@@ -147,4 +159,29 @@ p {
 .quality-font {
     font-family: 'Roboto Slab', serif;
     color: #6d6e71;
+}
+
+/*media queries*/
+
+@media (max-width: 700px) {
+ input,
+ textarea,
+ .save-button,
+ .idea-card {
+   width: 85%;
+ }
+}
+
+@media (max-width: 400px) {
+.top-container {
+  height: 40vh;
+}
+
+.header {
+  padding: 30px 0;
+}
+
+#body {
+   height: 120px;
+ }
 }
