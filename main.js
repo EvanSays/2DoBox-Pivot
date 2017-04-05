@@ -113,12 +113,34 @@ $('.card-container').on('click', '.down-vote', function() {
 function updateArrayQuality(thisButton, rating) {
   var cardID = thisButton.closest('.idea-card').attr('id');
   console.log(cardID)
-  ideaArray.forEach(function(idea, index) {
+  ideaArray.forEach(function(idea) {
     if (cardID == idea.id) {
       console.log('got it')
         idea.quality = rating.text()
-        console.log(ideaArray[index]);
+        console.log(ideaArray);
     }
     storeIdea();
   })
 }
+
+$('.card-container').on('blur', 'h2', function() {
+    var cardID = $(this).closest('.idea-card').attr('id')
+    var h2Text = $(this).text()
+    ideaArray.forEach(function(idea) {
+        if (cardID == idea.id) {
+            idea.title = h2Text
+        }
+        storeIdea();
+    })
+})
+
+$('.card-container').on('blur', 'p', function() {
+    var cardID = $(this).closest('.idea-card').attr('id')
+    var h2Body = $(this).text()
+    ideaArray.forEach(function(idea) {
+        if (cardID == idea.id) {
+            idea.body = h2Body
+        }
+        storeIdea();
+    })
+})
