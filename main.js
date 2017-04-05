@@ -54,6 +54,14 @@ function clearInputs() {
 
 $('.card-container').on('click', '.delete', function() {
     $(this).closest('.idea-card').remove()
+    var cardID = $(this).closest('.idea-card').attr('id')
+    ideaArray.forEach(function(idea, index) {
+      if (cardID == idea.id){
+        ideaArray.splice(index, 1)
+        console.log('test');
+      }
+      storeIdea();
+    })
 })
 
 function storeIdea() {
