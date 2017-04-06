@@ -1,73 +1,72 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
-    color: #939598;
+  font-family: 'Open Sans', sans-serif;
+  color: #939598;
 }
 
 header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 0;
-    background: #e5f3f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  background: #e5f3f2;
 }
 
 h1 {
-    font-family: 'Roboto Slab', serif;
-    font-size: 40px;
-    color: #00a79d;
+  font-family: 'Roboto Slab', serif;
+  font-size: 40px;
+  color: #00a79d;
 }
 
 h2 {
-    font-family: 'Roboto Slab', serif;
-    color: #6d6e71;
-    display: inline-block;
-    font-size: 22px;
-    padding-bottom: 15px;
-    width: 90%;
+  display: inline-block;
+  width: 90%;
+  padding-bottom: 15px;
+  color: #6d6e71;
+  font-family: 'Roboto Slab', serif;
+  font-size: 22px;
 }
 
 .header {
-    color: #6d6e71;
+  color: #6d6e71;
 }
 
 .top-container {
-
   display: flex;
-  flex-direction: column;
   align-items: center;
-  background: #e5f3f2;
-  padding-bottom: 30px;
-  height: 25vh;
   justify-content: space-between;
+  flex-direction: column;
+  height: 25vh;
+  padding-bottom: 30px;
+  background: #e5f3f2;
 }
 
 .save-button {
-    background: #00a79d;
-    color: #fff;
-    border: none;
+  background: #00a79d;
+  border: none;
+  color: #fff;
 }
 
 .save-button:disabled {
-    background: #989898;
+  background: #989898;
 }
 
 .save-button:hover {
-    background: #045e55;
+  background: #045e55;
 }
 
 
 input,
 textarea,
 .save-button {
+  max-width: 750px;
   width: 60%;
   height: 35px;
-  font-size: 24px;
   padding-left: 5px;
-  max-width: 750px;
+  font-size: 24px;
 }
 
 input,
@@ -76,29 +75,29 @@ textarea {
 }
 
 .card-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
 }
 
 .idea-card {
-  padding-bottom: 10px;
-  width: 60%;
   max-width: 750px;
+  width: 60%;
+  border-bottom: 1px solid #d1d3d4;
+  padding-bottom: 10px;
+  padding-top: 30px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-all;
   word-break: break-word;
-  border-bottom: 1px solid #d1d3d4;
-  padding-top: 30px;
 }
 
 .delete,
@@ -110,55 +109,55 @@ textarea {
 }
 
 .delete {
-    background: url("assets/delete.svg") no-repeat;
-    background-size: cover;
-    float: right;
-    vertical-align: top;
+  float: right;
+  vertical-align: top;
+  background: url("assets/delete.svg") no-repeat;
+  background-size: cover;
 }
 
 .delete:hover {
-    background: url("assets/delete-hover.svg") no-repeat;
-    background-size: cover;
+  background: url("assets/delete-hover.svg") no-repeat;
+  background-size: cover;
 }
 
 p {
-    padding-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .up-vote {
-    background: url("assets/upvote.svg") no-repeat;
-    background-size: cover;
-    margin-right: 10px;
+  margin-right: 10px;
+  background: url("assets/upvote.svg") no-repeat;
+  background-size: cover;
 }
 
 .up-vote:hover {
-    background: url("assets/upvote-hover.svg") no-repeat;
-    background-size: cover;
+  background: url("assets/upvote-hover.svg") no-repeat;
+  background-size: cover;
 }
 
 .down-vote {
-    background: url("assets/downvote.svg") no-repeat;
-    background-size: cover;
-    margin-right: 10px;
+  margin-right: 10px;
+  background: url("assets/downvote.svg") no-repeat;
+  background-size: cover;
 }
 
 .down-vote:hover {
-    background: url("assets/downvote-hover.svg") no-repeat;
-    background-size: cover;
+  background: url("assets/downvote-hover.svg") no-repeat;
+  background-size: cover;
 }
 
 .quality-container {
-    width: 210px;
+  width: 210px;
 }
 
 .idea-quality {
   display: inline;
-    padding-top: 2px;
+  padding-top: 2px;
 }
 
 .quality-font {
-    font-family: 'Roboto Slab', serif;
-    color: #6d6e71;
+  font-family: 'Roboto Slab', serif;
+  color: #6d6e71;
 }
 
 /*media queries*/
