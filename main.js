@@ -22,11 +22,7 @@ function prependCard() {
     getIdeas()
     console.log("getIdeasArray", ideaArray);
     ideaArray.forEach(function(idea) {
-        // var $id = newIdea.id
-        // var $title = newIdea.title
-        // var $body = newIdea.body
-        // var $quality = newIdea.quality
-        $('.card-container').prepend(`<article class="idea-card" id="${idea.id}">
+    $('.card-container').prepend(`<article class="idea-card" id="${idea.id}">
       <button type="button" class="delete"></button>
       <h2 contenteditable="true">${idea.title}</h2>
       <p contenteditable="true">${idea.body}</p>
@@ -143,4 +139,16 @@ $('.card-container').on('blur', 'p', function() {
         }
         storeIdea();
     })
+})
+
+$('.search-bar').on('keyup', function() {
+  var searchText = $('.search-bar').val().toLowerCase();
+  $('.idea-card').each(function() {
+    var cardText = $(this).text().toLowerCase();
+    if (cardText.indexOf(searchText) != -1) {
+      $(this).show()
+    } else {
+      $(this).hide()
+    }
+  })
 })
