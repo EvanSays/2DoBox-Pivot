@@ -9,15 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">  </head>
   <body>
     <header>
-      <h1>idea<span class="header">box</span></h1>
+      <h1 role="banner">idea<span class="header">box</span></h1>
     </header>
     <section class="top-container">
-      <input type="text" id="title" name="title" placeholder="Title">
-      <textarea id="body" placeholder="Body"></textarea>
-      <button class="save-button" type="button" name="button">save</button>
+      <label for="title"></label>
+      <input role="title-text-box" type="text" id="title" name="title" placeholder="Title">
+      <textarea role="body-text-box" id="body" placeholder="Body"></textarea>
+      <button role="button" class="save-button" type="button" name="button">save</button>
     </section>
     <section class="search-container">
-      <input class="search-bar" type="text" name="search" placeholder="Search">
+      <input role="search" class="search-bar" type="text" name="search" placeholder="Search">
     </section>
     <main class="card-container"></main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
