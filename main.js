@@ -9,8 +9,8 @@ $(document).ready(function() {
 function CardObject(title, body) {
   this.title = title;
 	this.body = body;
-	this.quality = "swill"
 	this.id = Date.now();
+  this.quality= "swill"
 }
 
 $('.save-button').on('click', function() {
@@ -30,34 +30,55 @@ $('.save-button').on('click', function() {
 //     $('.save-button').click()
 //   }
 // })
+// $('.card-container').on('click', '.delete', function() {
+//   $(this).closest('.idea-card').remove()
+//   var cardID = $(this).closest('.idea-card').attr('id')
+//   ideaArray.forEach(function(idea, index) {
+//     if (cardID == idea.id) {
+//       ideaArray.splice(index, 1)
+//     }
+//   })
+//   storeIdea()
+// })
 
 $('.card-container').on('click', '.delete', function() {
   $(this).closest('.idea-card').remove()
   var cardID = $(this).closest('.idea-card').attr('id')
-  ideaArray.forEach(function(idea, index) {
-    if (cardID == idea.id) {
-      ideaArray.splice(index, 1)
-    }
-  })
-  storeIdea()
+  localStorage.removeItem(cardID);
+
 })
 
 $('.card-container').on('click', '.up-vote', function() {
+
   var rating = ($(this).siblings("p").children(".rating"))
-  var thisButton = $(this)
-  switch (rating.text()) {
-    case 'swill':
-      rating.text('plausible')
-      updateArrayQuality(thisButton, rating);
-      break;
-    case 'plausible':
-      rating.text('genius')
-      updateArrayQuality(thisButton, rating)
-      break;
-    case 'genius':
-      break
-  }
+  qualitys();
+
+  // var thisButton = $(this)
+  // switch (rating.text()) {
+  //   case 'swill':
+  //     rating.text('plausible')
+  //     updateArrayQuality(thisButton, rating);
+  //     break;
+  //   case 'plausible':
+  //     rating.text('genius')
+  //     updateArrayQuality(thisButton, rating)
+  //     break;
+  //   case 'genius':
+  //     break
+  // }
 })
+
+function qualitys() {
+  var quality = ["swill", "plausible", "genius"]
+  counter = 0;
+  var increase = counter < quality.length ? (
+  console.log(quality[counter]),
+  counter++ )
+  :(
+  console.log(quality[counter]));
+  console.log(counter)
+}
+
 
 $('.card-container').on('click', '.down-vote', function() {
   var rating = ($(this).siblings("p").children(".rating"))
@@ -106,6 +127,7 @@ $('.search-bar').on('keyup', function(event) {
 >>>>>>>>    <<<<<<<<
 ========================================*/
 function prependCard(newIdea) {
+  console.log(newIdea.id)
   $('.card-container').prepend(
     `<article class="idea-card" id="${newIdea.id}">
       <button type="button" class="delete"></button>
