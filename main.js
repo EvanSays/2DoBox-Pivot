@@ -1,32 +1,35 @@
 var ideaArray = []
 
 $(document).ready(function() {
-    prependCard()
+  for (var i = 0; i < localStorage.length; i++) {
+		prependCard(JSON.parse(localStorage.getItem(localStorage.key(i))));
+  }
 })
 
-function CardObject(id, title, body) {
-  this.id = id
-  this.title = title
-  this.body = body
-  this.quality = "swill"
+function CardObject(title, body) {
+  this.title = title;
+	this.body = body;
+	this.quality = "swill"
+	this.id = Date.now();
 }
 
 $('.save-button').on('click', function() {
   var $title = $('#title').val()
   var $body = $('#body').val()
-  var $id = Date.now()
-  var newIdea = new CardObject($id, $title, $body)
+  var newIdea = new CardObject($title, $body)
   clearInputs()
-  ideaArray.push(newIdea)
-  storeIdea()
-  prependCard()
+  storeIdea(newIdea)
+  prependCard(newIdea)
 })
 
-$('#title', '.save-button').on('keyup', function(event) {
-  if (event.keyCode == 13) {
-    $('.save-button').click()
-  }
-})
+
+
+//
+// $('#title', '.save-button').on('keyup', function(event) {
+//   if (event.keyCode == 13) {
+//     $('.save-button').click()
+//   }
+// })
 
 $('.card-container').on('click', '.delete', function() {
   $(this).closest('.idea-card').remove()
@@ -99,32 +102,34 @@ $('.search-bar').on('keyup', function(event) {
   searchIdeas()
 })
 
-function prependCard() {
-  getIdeas()
-  ideaArray.forEach(function(idea) {
+/*=======================================
+>>>>>>>>    <<<<<<<<
+========================================*/
+function prependCard(newIdea) {
   $('.card-container').prepend(
-    `<article class="idea-card" id="${idea.id}">
+    `<article class="idea-card" id="${newIdea.id}">
       <button type="button" class="delete"></button>
-      <h2 contenteditable="true">${idea.title}</h2>
-      <p contenteditable="true">${idea.body}</p>
+      <h2 contenteditable="true">${newIdea.title}</h2>
+      <p contenteditable="true">${newIdea.body}</p>
       <div class="quality-container">
         <button type="button" class="up-vote"></button>
         <button type="button" class="down-vote"></button>
-        <p class="idea-quality"><span class="quality-font">quality: </span><span class="rating">${idea.quality}</span></p>
+        <p class="idea-quality"><span class="quality-font">quality: </span><span class="rating">${newIdea.quality}</span></p>
       </div>
     </article>`)
-  })
 }
-
+/*=======================================
+>>>>>>>>    <<<<<<<<
+========================================*/
 function clearInputs() {
   $('#title').val('')
   $('#body').val('')
 }
 
-function storeIdea() {
-  var stringifiedIdea = JSON.stringify(ideaArray)
-  localStorage.setItem('ideas', stringifiedIdea)
+function storeIdea(newIdea) {
+  localStorage.setItem(newIdea.id, JSON.stringify(newIdea))
 }
+
 
 function getIdeas() {
   var getIdeas = localStorage.getItem('ideas') || '[]'
