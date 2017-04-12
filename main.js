@@ -1,25 +1,32 @@
 $(document).ready(prependOnStart)
 
 $('.save-button').on('click', saveButton)
-                .on('click', saveButtonDisable);
+  .on('click', saveButtonDisable);
+$('#title, #body').on('input', saveButtonEnable);
 $('.card-container').on('click', '.delete', deleteCard);
 $('.card-container').on('blur', 'h2', titlePersist);
 $('.card-container').on('blur', 'p', bodyPersist);
-$('#title, #body').on('input',saveButtonEnable)
+$('.card-container').on('click', '.up-vote', increaseIndex);
+$('.card-container').on('click', '.down-vote', decreaseIndex);
+$('#search').on('keyup', searchCards);
 
+/*=======================================
+>>>>>>>>  ON START  <<<<<<<<
+========================================*/
+function clearInputs() {
+  $('#title').val('')
+  $('#body').val('')
+}
 
+function prependOnStart() {
+  for (var i = 0; i < localStorage.length; i++) {
+    prependCard(JSON.parse(localStorage.getItem(localStorage.key(i))));
+  }
+}
 
-
-$("#title, #body").keypress(function(e) {
-  var titleInput = $('#title').val();
-  var bodyInput = $('#body').val();
-  if (titleInput !== "" && bodyInput !== "" && e.which == 13) {
-    console.log("ENTER")
-		$('.save-button').click()
-	}
-});
-
-
+/*=======================================
+>>>>>>>> OBJECT CONSTRUCTOR FUNCTION <<<<<<<<
+========================================*/
 function CardObject(title, body) {
   this.id = Date.now();
   this.title = title;
@@ -29,88 +36,7 @@ function CardObject(title, body) {
   this.quality = this.qualities[this.index]
 }
 
-
-
-
-///i need to get local storage and increment the quality then cahnge the page and save.
-$('.card-container').on('click', '.up-vote', increaseIndex);
-$('.card-container').on('click', '.down-vote', decreaseIndex);
-
-function increaseIndex(){
-  var cardID = ($(this).closest('.idea-card').attr('id'))
-  var data = getObjectData(cardID)
-  if (data[2] == data[1].length-1) { return;}
-    data[2]++;
-    data[0].quality = data[1][data[2]]
-    data[0].index = data[2]
-    localStorage.setItem(cardID, JSON.stringify(data[0]))
-    $(this).siblings("p").children(".rating").text(data[1][data[2]])
-
-}
-function decreaseIndex(){
-  var cardID = ($(this).closest('.idea-card').attr('id'))
-  var data = getObjectData(cardID)
-  if (data[2] == 0) { return;}
-    data[2]--;
-    data[0].quality = data[1][data[2]]
-    data[0].index = data[2]
-    localStorage.setItem(cardID, JSON.stringify(data[0]))
-    $(this).siblings("p").children(".rating").text(data[1][data[2]])
-}
-
-var getObjectData = function(cardID) {
-  var parsedObject = JSON.parse(localStorage.getItem(cardID))
-  var qualityList = parsedObject.qualities
-  var index = parsedObject.index
-  var quality = parsedObject.quality
-  return [parsedObject, qualityList, index, quality]
-}
-
-
-function getDataIndex(thisButton) {
-  var index =$(thisButton ).closest('.idea-card').attr('data-index')
-    return index
-}
-function getDataQualities(thisButton) {
-var list =  $(thisButton).closest('.idea-card').attr('data-list')
-    return list
-}
-
-
-function bodyPersist() {
-  var cardID = $(this).closest('.idea-card').attr('id')
-  var h2Body = $(this).text()
-  var retrieveObject = localStorage.getItem(cardID)
-  var parsedObject = JSON.parse(retrieveObject)
-  parsedObject.body = h2Body;
-  var stringifiedObject = JSON.stringify(parsedObject)
-  localStorage.setItem(cardID, stringifiedObject)
-}
-
-
-
-
-/*=======================================
->>>>>>>>    <<<<<<<<
-========================================*/
-
-/*=======================================
->>>>>>>> CALLBACK FUNCTIONS <<<<<<<<
-========================================*/
-function prependOnStart() {
-  for (var i = 0; i < localStorage.length; i++) {
-    prependCard(JSON.parse(localStorage.getItem(localStorage.key(i))));
-  }
-}
-
-
-function clearInputs() {
-  $('#title').val('')
-  $('#body').val('')
-}
-
 function prependCard(newIdea) {
-  console.log(newIdea.id)
   $('.card-container').prepend(
     `<article class="idea-card" id="${newIdea.id}" data-index="${newIdea.index}" data-list="${newIdea.qualities}">
       <button type="button" class="delete"></button>
@@ -123,6 +49,69 @@ function prependCard(newIdea) {
       </div>
     </article>`)
 }
+
+
+/*=======================================
+>>>>>>>>  IMPORTANCE VALUE CHANGER  <<<<<<<<
+========================================*/
+function increaseIndex() {
+  var cardID = ($(this).closest('.idea-card').attr('id'))
+  var data = getObjectData(cardID)
+  if (data[2] == data[1].length - 1) {
+    return;
+  }
+  data[2]++;
+  data[0].quality = data[1][data[2]]
+  data[0].index = data[2]
+  localStorage.setItem(cardID, JSON.stringify(data[0]))
+  $(this).siblings("p").children(".rating").text(data[1][data[2]])
+
+}
+
+function decreaseIndex() {
+  var cardID = ($(this).closest('.idea-card').attr('id'))
+  var data = getObjectData(cardID)
+  if (data[2] == 0) {
+    return;
+  }
+  data[2]--;
+  data[0].quality = data[1][data[2]]
+  data[0].index = data[2]
+  localStorage.setItem(cardID, JSON.stringify(data[0]))
+  $(this).siblings("p").children(".rating").text(data[1][data[2]])
+}
+
+var getObjectData = function(cardID) {
+  var parsedObject = JSON.parse(localStorage.getItem(cardID))
+  var qualityList = parsedObject.qualities
+  var index = parsedObject.index
+  var quality = parsedObject.quality
+  return [parsedObject, qualityList, index, quality]
+}
+
+/*=======================================
+>>>>>>>>  LOCAL STORAGE  <<<<<<<<
+========================================*/
+
+function bodyPersist() {
+  var cardID = $(this).closest('.idea-card').attr('id')
+  var h2Body = $(this).text()
+  var retrieveObject = localStorage.getItem(cardID)
+  var parsedObject = JSON.parse(retrieveObject)
+  parsedObject.body = h2Body;
+  var stringifiedObject = JSON.stringify(parsedObject)
+  localStorage.setItem(cardID, stringifiedObject)
+}
+
+function retrieveObjectStorage(cardID, text, key) {
+  var parsedObject = JSON.parse(localStorage.getItem(cardID))
+  parsedObject[key] = text;
+  localStorage.setItem(cardID, JSON.stringify(parsedObject))
+}
+
+/*=======================================
+>>>>>>>>  EVENT LISTENER TRIGGERS  <<<<<<<<
+========================================*/
 
 function saveButton() {
   var $title = $('#title').val()
@@ -137,141 +126,67 @@ function storeIdea(newIdea) {
   localStorage.setItem(newIdea.id, JSON.stringify(newIdea))
 }
 
-
-// function getIdeas() {
-//   var getIdeas = localStorage.getItem('ideas') || '[]'
-//   var parsedIdea = JSON.parse(getIdeas)
-//   ideaArray = parsedIdea
-// }
-
 function deleteCard() {
   $(this).closest('.idea-card').remove()
   var cardID = $(this).closest('.idea-card').attr('id')
   localStorage.removeItem(cardID);
 }
 
-// function changeQualityUp() {
-//   var rating = ($(this).siblings("p").children(".rating"))
-//   var thisButton = $(this)
-//   switch (rating.text()) {
-//     case 'swill':
-//       rating.text('plausible')
-//       updateArrayQuality(thisButton, rating);
-//       break;
-//     case 'plausible':
-//       rating.text('genius')
-//       updateArrayQuality(thisButton, rating)
-//       break;
-//     case 'genius':
-//       break
-//   }
-// }
-//
-// function changeQualityDown() {
-//   var rating = ($(this).siblings("p").children(".rating"))
-//   var thisButton = $(this)
-//   switch (rating.text()) {
-//     case 'genius':
-//       rating.text('plausible')
-//       updateArrayQuality(thisButton, rating)
-//       break;
-//     case 'plausible':
-//       rating.text('swill')
-//       updateArrayQuality(thisButton, rating)
-//       break;
-//     case 'swill':
-//       break
-//   }
-// }
-
 function titlePersist() {
   var cardID = $(this).closest('.idea-card').attr('id')
-  console.log("its here");
   var text = $(this).text()
-  var thisTitle = "title"
-  retrieveObjectStorage(cardID, text, thisTitle)
+  var arrayTitleKey = "title"
+  retrieveObjectStorage(cardID, text, arrayTitleKey)
 }
 
 function bodyPersist() {
   var cardID = $(this).closest('.idea-card').attr('id')
   var text = $(this).text()
-  var thisBody = "body"
-  retrieveObjectStorage(cardID, text, thisBody)
+  var arrayBodyKey = "body"
+  retrieveObjectStorage(cardID, text, arrayBodyKey)
 }
-
-function retrieveObjectStorage(cardID, text, key) {
-  var parsedObject = JSON.parse(localStorage.getItem(cardID))
-  parsedObject[key] = text;
-  localStorage.setItem(cardID, JSON.stringify(parsedObject))
-}
-
-
-
-
-
-
-
-// saveButtonStatus();
 
 function saveButtonEnable() {
   var titleInput = $('#title').val();
   var bodyInput = $('#body').val();
-     if (titleInput !== "" && bodyInput !== "") {
-      $('.save-button').attr("disabled", false)
-    }
+  if (titleInput !== "" && bodyInput !== "") {
+    $('.save-button').attr("disabled", false)
   }
+}
 
-function saveButtonDisable(){
-console.log("its disabled")
+function saveButtonDisable() {
   var titleInput = $('#title').val();
   var bodyInput = $('#body').val();
-     if (titleInput === "" && bodyInput === "") {
-      $('.save-button').attr("disabled", true)
-    }
+  if (titleInput === "" && bodyInput === "") {
+    $('.save-button').attr("disabled", true)
+  }
 }
-//
-// // come back to this and change!!!!!!!
-// $('.search-bar').on('keyup', function(event) {
-//   searchIdeas()
-// })
-//
-// function(searchIdeas) {
-//
-// }
 
-// function searchIdeas() {
-//   var searchText = $('.search-bar').val().toLowerCase()
-//   ideaArray.forEach(function(idea, index) {
-//     idea.title = idea.title.toLowerCase()
-//     idea.body = idea.body.toLowerCase()
-//   })
-//   var searchResultsNeg = ideaArray.filter(function(idea) {
-//     return idea.title.indexOf(searchText) == -1 &&
-//       idea.body.indexOf(searchText) == -1 &&
-//       idea.quality.indexOf(searchText) == -1
-//   })
-//   var searchResults = ideaArray.filter(function(idea) {
-//     return idea.title.indexOf(searchText) != -1 ||
-//       idea.body.indexOf(searchText) != -1 ||
-//       idea.quality.indexOf(searchText) != -1
-//   })
-//   searchResultsNeg.forEach(function(idea, index) {
-//     $('#' + idea.id).hide()
-//   })
-//   searchResults.forEach(function(idea, index) {
-//     $('#' + idea.id).show()
-//   })
-// }
+function searchCards() {
+  var searchInput = $(this).val().toLowerCase();
+  $(".idea-card").each(function() {
+    var cardText = $(this).text().toLowerCase();
+    if (cardText.indexOf(searchInput) != -1) {
+      $(this).show();
+    } else {
+      $(this).hide();
+    }
+  })
+}
 
-$('#search').on('keyup', function() {
-	var searchInput = $(this).val().toLowerCase();
-	$(".idea-card").each(function() {
-		var cardText = $(this).text().toLowerCase();
-    console.log(typeof(cardText));
-		if (cardText.indexOf(searchInput) != -1) {
-			$(this).show();
-		} else {
-			$(this).hide();
-		}
-	})
-})
+$("#title, #body").keypress(function(e) {
+  var titleInput = $('#title').val();
+  var bodyInput = $('#body').val();
+  if (titleInput !== "" && bodyInput !== "" && e.which == 13) {
+    $('.save-button').click()
+  }
+});
+
+$('.card-container').on('keypress', "h2, #p-body", function(event) {
+  if (event.keyCode == 13 && event.shiftKey) {
+    alert('Enter + shift pressed');
+  } else if (event.keyCode == 13) {
+    event.preventDefault();
+    $("h2, #p-body").blur()
+  }
+});
