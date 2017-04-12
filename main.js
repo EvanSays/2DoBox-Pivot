@@ -3,17 +3,17 @@ $(document).ready(prependOnStart)
 $('.save-button').on('click', saveButton)
                 .on('click', saveButtonDisable);
 $('.card-container').on('click', '.delete', deleteCard);
-
 $('.card-container').on('blur', 'h2', titlePersist);
 $('.card-container').on('blur', 'p', bodyPersist);
+$('#title, #body').on('input',saveButtonEnable)
 
 
 
 
-
-///how can i pass event to callback function js
 $("#title, #body").keypress(function(e) {
-  if (e.which == 13) {
+  var titleInput = $('#title').val();
+  var bodyInput = $('#body').val();
+  if (titleInput !== "" && bodyInput !== "" && e.which == 13) {
     console.log("ENTER")
 		$('.save-button').click()
 	}
@@ -24,8 +24,8 @@ function CardObject(title, body) {
   this.id = Date.now();
   this.title = title;
   this.body = body;
-  this.qualities = ['swill', 'plausible', 'genius', 'maniac']
-  this.index = 0
+  this.qualities = ['None', 'Low', 'Normal', 'High', 'Critical']
+  this.index = 2
   this.quality = this.qualities[this.index]
 }
 
@@ -88,10 +88,7 @@ function bodyPersist() {
 }
 
 
-// come back to this and change!!!!!!!
-$('.search-bar').on('keyup', function(event) {
-  searchIdeas()
-})
+
 
 /*=======================================
 >>>>>>>>    <<<<<<<<
@@ -122,7 +119,7 @@ function prependCard(newIdea) {
       <div class="quality-container">
         <button type="button" class="up-vote"></button>
         <button type="button" class="down-vote"></button>
-        <p class="idea-quality"><span class="quality-font">quality: </span><span class="rating">${newIdea.quality}</span></p>
+        <p class="idea-quality"><span class="quality-font">Importance: </span><span class="rating">${newIdea.quality}</span></p>
       </div>
     </article>`)
 }
@@ -141,11 +138,11 @@ function storeIdea(newIdea) {
 }
 
 
-function getIdeas() {
-  var getIdeas = localStorage.getItem('ideas') || '[]'
-  var parsedIdea = JSON.parse(getIdeas)
-  ideaArray = parsedIdea
-}
+// function getIdeas() {
+//   var getIdeas = localStorage.getItem('ideas') || '[]'
+//   var parsedIdea = JSON.parse(getIdeas)
+//   ideaArray = parsedIdea
+// }
 
 function deleteCard() {
   $(this).closest('.idea-card').remove()
@@ -189,6 +186,7 @@ function deleteCard() {
 
 function titlePersist() {
   var cardID = $(this).closest('.idea-card').attr('id')
+  console.log("its here");
   var text = $(this).text()
   var thisTitle = "title"
   retrieveObjectStorage(cardID, text, thisTitle)
@@ -208,17 +206,8 @@ function retrieveObjectStorage(cardID, text, key) {
 }
 
 
-function updateArrayQuality(thisButton, rating) {
-  var cardID = thisButton.closest('.idea-card').attr('id')
-  ideaArray.forEach(function(idea) {
-    if (cardID == idea.id) {
-      idea.quality = rating.text()
-    }
-    storeIdea()
-  })
-}
 
-$('#title, #body').on('input',saveButtonEnable)
+
 
 
 
@@ -240,28 +229,49 @@ console.log("its disabled")
       $('.save-button').attr("disabled", true)
     }
 }
+//
+// // come back to this and change!!!!!!!
+// $('.search-bar').on('keyup', function(event) {
+//   searchIdeas()
+// })
+//
+// function(searchIdeas) {
+//
+// }
 
+// function searchIdeas() {
+//   var searchText = $('.search-bar').val().toLowerCase()
+//   ideaArray.forEach(function(idea, index) {
+//     idea.title = idea.title.toLowerCase()
+//     idea.body = idea.body.toLowerCase()
+//   })
+//   var searchResultsNeg = ideaArray.filter(function(idea) {
+//     return idea.title.indexOf(searchText) == -1 &&
+//       idea.body.indexOf(searchText) == -1 &&
+//       idea.quality.indexOf(searchText) == -1
+//   })
+//   var searchResults = ideaArray.filter(function(idea) {
+//     return idea.title.indexOf(searchText) != -1 ||
+//       idea.body.indexOf(searchText) != -1 ||
+//       idea.quality.indexOf(searchText) != -1
+//   })
+//   searchResultsNeg.forEach(function(idea, index) {
+//     $('#' + idea.id).hide()
+//   })
+//   searchResults.forEach(function(idea, index) {
+//     $('#' + idea.id).show()
+//   })
+// }
 
-function searchIdeas() {
-  var searchText = $('.search-bar').val().toLowerCase()
-  ideaArray.forEach(function(idea, index) {
-    idea.title = idea.title.toLowerCase()
-    idea.body = idea.body.toLowerCase()
-  })
-  var searchResultsNeg = ideaArray.filter(function(idea) {
-    return idea.title.indexOf(searchText) == -1 &&
-      idea.body.indexOf(searchText) == -1 &&
-      idea.quality.indexOf(searchText) == -1
-  })
-  var searchResults = ideaArray.filter(function(idea) {
-    return idea.title.indexOf(searchText) != -1 ||
-      idea.body.indexOf(searchText) != -1 ||
-      idea.quality.indexOf(searchText) != -1
-  })
-  searchResultsNeg.forEach(function(idea, index) {
-    $('#' + idea.id).hide()
-  })
-  searchResults.forEach(function(idea, index) {
-    $('#' + idea.id).show()
-  })
-}
+$('#search').on('keyup', function() {
+	var searchInput = $(this).val().toLowerCase();
+	$(".idea-card").each(function() {
+		var cardText = $(this).text().toLowerCase();
+    console.log(typeof(cardText));
+		if (cardText.indexOf(searchInput) != -1) {
+			$(this).show();
+		} else {
+			$(this).hide();
+		}
+	})
+})
