@@ -1,28 +1,13 @@
 var ideaArray = []
 
-$(document).ready(function() {
-  for (var i = 0; i < localStorage.length; i++) {
-		prependCard(JSON.parse(localStorage.getItem(localStorage.key(i))));
-  }
-})
+$(document).ready(prependOnStart)
 
-function CardObject(title, body) {
-  this.title = title;
-	this.body = body;
-	this.id = Date.now();
-  this.quality= "swill"
-}
-
-$('.save-button').on('click', function() {
-  var $title = $('#title').val()
-  var $body = $('#body').val()
-  var newIdea = new CardObject($title, $body)
-  clearInputs()
-  storeIdea(newIdea)
-  prependCard(newIdea)
-})
-
-
+$('.save-button').on('click', saveButton, saveButtonDisable)
+$('.card-container').on('click', '.delete', deleteCard)
+$('.card-container').on('click', '.up-vote', changeQualityUp)
+$('.card-container').on('click', '.down-vote', changeQualityDown)
+$('.card-container').on('blur', 'h2', titlePersist)
+$('.card-container').on('blur', 'p', bodyPersist)
 
 //
 // $('#title', '.save-button').on('keyup', function(event) {
@@ -41,84 +26,37 @@ $('.save-button').on('click', function() {
 //   storeIdea()
 // })
 
-$('.card-container').on('click', '.delete', function() {
-  $(this).closest('.idea-card').remove()
+// function qualitys() {
+//   var quality = ["swill", "plausible", "genius"]
+//   counter = 0;
+//   var increase = counter < quality.length ? (
+//   console.log(quality[counter]),
+//   counter++ )
+//   :(
+//   console.log(quality[counter]));
+//   console.log(counter)
+// }
+
+
+
+
+
+function bodyPersist() {
   var cardID = $(this).closest('.idea-card').attr('id')
-  localStorage.removeItem(cardID);
-
-})
-
-$('.card-container').on('click', '.up-vote', function() {
-
-  var rating = ($(this).siblings("p").children(".rating"))
-  qualitys();
-
-  // var thisButton = $(this)
-  // switch (rating.text()) {
-  //   case 'swill':
-  //     rating.text('plausible')
-  //     updateArrayQuality(thisButton, rating);
-  //     break;
-  //   case 'plausible':
-  //     rating.text('genius')
-  //     updateArrayQuality(thisButton, rating)
-  //     break;
-  //   case 'genius':
-  //     break
-  // }
-})
-
-function qualitys() {
-  var quality = ["swill", "plausible", "genius"]
-  counter = 0;
-  var increase = counter < quality.length ? (
-  console.log(quality[counter]),
-  counter++ )
-  :(
-  console.log(quality[counter]));
-  console.log(counter)
+  var h2Body = $(this).text()
+  var retrieveObject = localStorage.getItem(cardID)
+  console.log(retrieveObject);
+  var parsedObject = JSON.parse(retrieveObject)
+  console.log(parsedObject);
+  parsedObject.body = h2Body;
+  console.log(parsedObject);
+  var stringifiedObject = JSON.stringify(parsedObject)
+  console.log(stringifiedObject);
+  localStorage.setItem(cardID, stringifiedObject)
 }
 
 
-$('.card-container').on('click', '.down-vote', function() {
-  var rating = ($(this).siblings("p").children(".rating"))
-  var thisButton = $(this)
-  switch (rating.text()) {
-    case 'genius':
-      rating.text('plausible')
-      updateArrayQuality(thisButton, rating)
-      break;
-    case 'plausible':
-      rating.text('swill')
-      updateArrayQuality(thisButton, rating)
-      break;
-    case 'swill':
-      break
-  }
-})
-
-$('.card-container').on('blur', 'h2', function() {
-  var cardID = $(this).closest('.idea-card').attr('id')
-  var h2Text = $(this).text()
-  ideaArray.forEach(function(idea) {
-    if (cardID == idea.id) {
-        idea.title = h2Text
-    }
-  })
-  storeIdea()
-})
-
-$('.card-container').on('blur', 'p', function() {
-  var cardID = $(this).closest('.idea-card').attr('id')
-  var h2Body = $(this).text()
-  ideaArray.forEach(function(idea) {
-    if (cardID == idea.id) {
-      idea.body = h2Body
-    }
-  })
-  storeIdea()
-})
-
+// come back to this and change!!!!!!!
 $('.search-bar').on('keyup', function(event) {
   searchIdeas()
 })
@@ -126,6 +64,28 @@ $('.search-bar').on('keyup', function(event) {
 /*=======================================
 >>>>>>>>    <<<<<<<<
 ========================================*/
+
+/*=======================================
+>>>>>>>> CALLBACK FUNCTIONS <<<<<<<<
+========================================*/
+function prependOnStart() {
+  for (var i = 0; i < localStorage.length; i++) {
+    prependCard(JSON.parse(localStorage.getItem(localStorage.key(i))));
+  }
+}
+
+function CardObject(title, body) {
+  this.title = title;
+  this.body = body;
+  this.id = Date.now();
+  this.quality = "swill"
+}
+
+function clearInputs() {
+  $('#title').val('')
+  $('#body').val('')
+}
+
 function prependCard(newIdea) {
   console.log(newIdea.id)
   $('.card-container').prepend(
@@ -140,12 +100,16 @@ function prependCard(newIdea) {
       </div>
     </article>`)
 }
-/*=======================================
->>>>>>>>    <<<<<<<<
-========================================*/
-function clearInputs() {
-  $('#title').val('')
-  $('#body').val('')
+
+function saveButton() {
+  console.log("save button!!");
+  var $title = $('#title').val()
+  var $body = $('#body').val()
+  var newIdea = new CardObject($title, $body)
+  console.log(newIdea);
+  clearInputs()
+  storeIdea(newIdea)
+  prependCard(newIdea)
 }
 
 function storeIdea(newIdea) {
@@ -159,6 +123,67 @@ function getIdeas() {
   ideaArray = parsedIdea
 }
 
+function deleteCard() {
+  $(this).closest('.idea-card').remove()
+  var cardID = $(this).closest('.idea-card').attr('id')
+  localStorage.removeItem(cardID);
+}
+
+function changeQualityUp() {
+  var rating = ($(this).siblings("p").children(".rating"))
+  var thisButton = $(this)
+  switch (rating.text()) {
+    case 'swill':
+      rating.text('plausible')
+      updateArrayQuality(thisButton, rating);
+      break;
+    case 'plausible':
+      rating.text('genius')
+      updateArrayQuality(thisButton, rating)
+      break;
+    case 'genius':
+      break
+  }
+}
+
+function changeQualityDown() {
+  var rating = ($(this).siblings("p").children(".rating"))
+  var thisButton = $(this)
+  switch (rating.text()) {
+    case 'genius':
+      rating.text('plausible')
+      updateArrayQuality(thisButton, rating)
+      break;
+    case 'plausible':
+      rating.text('swill')
+      updateArrayQuality(thisButton, rating)
+      break;
+    case 'swill':
+      break
+  }
+}
+
+function titlePersist() {
+  var cardID = $(this).closest('.idea-card').attr('id')
+  var text = $(this).text()
+  var thisTitle = "title"
+  retrieveObjectStorage(cardID, text, thisTitle)
+}
+
+function bodyPersist() {
+  var cardID = $(this).closest('.idea-card').attr('id')
+  var text = $(this).text()
+  var thisBody = "body"
+  retrieveObjectStorage(cardID, text, thisBody)
+}
+
+function retrieveObjectStorage(cardID, text, key) {
+  var parsedObject = JSON.parse(localStorage.getItem(cardID))
+  parsedObject[key] = text;
+  localStorage.setItem(cardID, JSON.stringify(parsedObject))
+}
+
+
 function updateArrayQuality(thisButton, rating) {
   var cardID = thisButton.closest('.idea-card').attr('id')
   ideaArray.forEach(function(idea) {
@@ -169,26 +194,50 @@ function updateArrayQuality(thisButton, rating) {
   })
 }
 
+$('#title, #body').on('input',saveButtonEnable)
+
+
+
+// saveButtonStatus();
+
+function saveButtonEnable() {
+  var titleInput = $('#title').val();
+  var bodyInput = $('#body').val();
+     if (titleInput !== "" && bodyInput !== "") {
+      $('.save-button').attr("disabled", false)
+    }
+  }
+
+function saveButtonDisable(){
+console.log("its disabled")
+  var titleInput = $('#title').val();
+  var bodyInput = $('#body').val();
+     if (titleInput === "" && bodyInput === "") {
+      $('.save-button').attr("disabled", true)
+    }
+}
+
+
 function searchIdeas() {
   var searchText = $('.search-bar').val().toLowerCase()
-  ideaArray.forEach( function(idea, index) {
+  ideaArray.forEach(function(idea, index) {
     idea.title = idea.title.toLowerCase()
     idea.body = idea.body.toLowerCase()
   })
   var searchResultsNeg = ideaArray.filter(function(idea) {
     return idea.title.indexOf(searchText) == -1 &&
-    idea.body.indexOf(searchText) == -1 &&
-    idea.quality.indexOf(searchText) == -1
+      idea.body.indexOf(searchText) == -1 &&
+      idea.quality.indexOf(searchText) == -1
   })
   var searchResults = ideaArray.filter(function(idea) {
     return idea.title.indexOf(searchText) != -1 ||
-    idea.body.indexOf(searchText) != -1 ||
-    idea.quality.indexOf(searchText) != -1
+      idea.body.indexOf(searchText) != -1 ||
+      idea.quality.indexOf(searchText) != -1
   })
-  searchResultsNeg.forEach(function (idea, index) {
-    $('#'+idea.id).hide()
+  searchResultsNeg.forEach(function(idea, index) {
+    $('#' + idea.id).hide()
   })
-  searchResults.forEach(function (idea, index) {
-    $('#'+idea.id).show()
+  searchResults.forEach(function(idea, index) {
+    $('#' + idea.id).show()
   })
 }
