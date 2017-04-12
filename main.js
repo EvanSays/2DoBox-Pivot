@@ -1,57 +1,89 @@
-var ideaArray = []
-
 $(document).ready(prependOnStart)
 
-$('.save-button').on('click', saveButton, saveButtonDisable)
-$('.card-container').on('click', '.delete', deleteCard)
-$('.card-container').on('click', '.up-vote', changeQualityUp)
-$('.card-container').on('click', '.down-vote', changeQualityDown)
-$('.card-container').on('blur', 'h2', titlePersist)
-$('.card-container').on('blur', 'p', bodyPersist)
+$('.save-button').on('click', saveButton)
+                .on('click', saveButtonDisable);
+$('.card-container').on('click', '.delete', deleteCard);
 
-//
-// $('#title', '.save-button').on('keyup', function(event) {
-//   if (event.keyCode == 13) {
-//     $('.save-button').click()
-//   }
-// })
-// $('.card-container').on('click', '.delete', function() {
-//   $(this).closest('.idea-card').remove()
-//   var cardID = $(this).closest('.idea-card').attr('id')
-//   ideaArray.forEach(function(idea, index) {
-//     if (cardID == idea.id) {
-//       ideaArray.splice(index, 1)
-//     }
-//   })
-//   storeIdea()
-// })
-
-// function qualitys() {
-//   var quality = ["swill", "plausible", "genius"]
-//   counter = 0;
-//   var increase = counter < quality.length ? (
-//   console.log(quality[counter]),
-//   counter++ )
-//   :(
-//   console.log(quality[counter]));
-//   console.log(counter)
-// }
+$('.card-container').on('blur', 'h2', titlePersist);
+$('.card-container').on('blur', 'p', bodyPersist);
 
 
 
+
+
+///how can i pass event to callback function js
+$("#title, #body").keypress(function(e) {
+  if (e.which == 13) {
+    console.log("ENTER")
+		$('.save-button').click()
+	}
+});
+
+
+function CardObject(title, body) {
+  this.id = Date.now();
+  this.title = title;
+  this.body = body;
+  this.qualities = ['swill', 'plausible', 'genius', 'maniac']
+  this.index = 0
+  this.quality = this.qualities[this.index]
+}
+
+
+
+
+///i need to get local storage and increment the quality then cahnge the page and save.
+$('.card-container').on('click', '.up-vote', increaseIndex);
+$('.card-container').on('click', '.down-vote', decreaseIndex);
+
+function increaseIndex(){
+  var cardID = ($(this).closest('.idea-card').attr('id'))
+  var data = getObjectData(cardID)
+  if (data[2] == data[1].length-1) { return;}
+    data[2]++;
+    data[0].quality = data[1][data[2]]
+    data[0].index = data[2]
+    localStorage.setItem(cardID, JSON.stringify(data[0]))
+    $(this).siblings("p").children(".rating").text(data[1][data[2]])
+
+}
+function decreaseIndex(){
+  var cardID = ($(this).closest('.idea-card').attr('id'))
+  var data = getObjectData(cardID)
+  if (data[2] == 0) { return;}
+    data[2]--;
+    data[0].quality = data[1][data[2]]
+    data[0].index = data[2]
+    localStorage.setItem(cardID, JSON.stringify(data[0]))
+    $(this).siblings("p").children(".rating").text(data[1][data[2]])
+}
+
+var getObjectData = function(cardID) {
+  var parsedObject = JSON.parse(localStorage.getItem(cardID))
+  var qualityList = parsedObject.qualities
+  var index = parsedObject.index
+  var quality = parsedObject.quality
+  return [parsedObject, qualityList, index, quality]
+}
+
+
+function getDataIndex(thisButton) {
+  var index =$(thisButton ).closest('.idea-card').attr('data-index')
+    return index
+}
+function getDataQualities(thisButton) {
+var list =  $(thisButton).closest('.idea-card').attr('data-list')
+    return list
+}
 
 
 function bodyPersist() {
   var cardID = $(this).closest('.idea-card').attr('id')
   var h2Body = $(this).text()
   var retrieveObject = localStorage.getItem(cardID)
-  console.log(retrieveObject);
   var parsedObject = JSON.parse(retrieveObject)
-  console.log(parsedObject);
   parsedObject.body = h2Body;
-  console.log(parsedObject);
   var stringifiedObject = JSON.stringify(parsedObject)
-  console.log(stringifiedObject);
   localStorage.setItem(cardID, stringifiedObject)
 }
 
@@ -74,12 +106,6 @@ function prependOnStart() {
   }
 }
 
-function CardObject(title, body) {
-  this.title = title;
-  this.body = body;
-  this.id = Date.now();
-  this.quality = "swill"
-}
 
 function clearInputs() {
   $('#title').val('')
@@ -89,7 +115,7 @@ function clearInputs() {
 function prependCard(newIdea) {
   console.log(newIdea.id)
   $('.card-container').prepend(
-    `<article class="idea-card" id="${newIdea.id}">
+    `<article class="idea-card" id="${newIdea.id}" data-index="${newIdea.index}" data-list="${newIdea.qualities}">
       <button type="button" class="delete"></button>
       <h2 contenteditable="true">${newIdea.title}</h2>
       <p contenteditable="true">${newIdea.body}</p>
@@ -102,11 +128,9 @@ function prependCard(newIdea) {
 }
 
 function saveButton() {
-  console.log("save button!!");
   var $title = $('#title').val()
   var $body = $('#body').val()
   var newIdea = new CardObject($title, $body)
-  console.log(newIdea);
   clearInputs()
   storeIdea(newIdea)
   prependCard(newIdea)
@@ -129,39 +153,39 @@ function deleteCard() {
   localStorage.removeItem(cardID);
 }
 
-function changeQualityUp() {
-  var rating = ($(this).siblings("p").children(".rating"))
-  var thisButton = $(this)
-  switch (rating.text()) {
-    case 'swill':
-      rating.text('plausible')
-      updateArrayQuality(thisButton, rating);
-      break;
-    case 'plausible':
-      rating.text('genius')
-      updateArrayQuality(thisButton, rating)
-      break;
-    case 'genius':
-      break
-  }
-}
-
-function changeQualityDown() {
-  var rating = ($(this).siblings("p").children(".rating"))
-  var thisButton = $(this)
-  switch (rating.text()) {
-    case 'genius':
-      rating.text('plausible')
-      updateArrayQuality(thisButton, rating)
-      break;
-    case 'plausible':
-      rating.text('swill')
-      updateArrayQuality(thisButton, rating)
-      break;
-    case 'swill':
-      break
-  }
-}
+// function changeQualityUp() {
+//   var rating = ($(this).siblings("p").children(".rating"))
+//   var thisButton = $(this)
+//   switch (rating.text()) {
+//     case 'swill':
+//       rating.text('plausible')
+//       updateArrayQuality(thisButton, rating);
+//       break;
+//     case 'plausible':
+//       rating.text('genius')
+//       updateArrayQuality(thisButton, rating)
+//       break;
+//     case 'genius':
+//       break
+//   }
+// }
+//
+// function changeQualityDown() {
+//   var rating = ($(this).siblings("p").children(".rating"))
+//   var thisButton = $(this)
+//   switch (rating.text()) {
+//     case 'genius':
+//       rating.text('plausible')
+//       updateArrayQuality(thisButton, rating)
+//       break;
+//     case 'plausible':
+//       rating.text('swill')
+//       updateArrayQuality(thisButton, rating)
+//       break;
+//     case 'swill':
+//       break
+//   }
+// }
 
 function titlePersist() {
   var cardID = $(this).closest('.idea-card').attr('id')
