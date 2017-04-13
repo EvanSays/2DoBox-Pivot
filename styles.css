@@ -4,7 +4,7 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  color: #939598;
+  color: #5a5c5e;
 }
 
 header {
@@ -12,7 +12,7 @@ header {
   justify-content: center;
   align-items: center;
   padding: 40px 0;
-  background: #e5f3f2;
+  background: #011f4b;
 }
 
 label {
@@ -21,8 +21,8 @@ label {
 
 h1 {
   font-family: 'Roboto Slab', serif;
-  font-size: 40px;
-  color: #00a79d;
+  font-size: 50px;
+  color: #6497b1;
 }
 
 h2 {
@@ -35,7 +35,7 @@ h2 {
 }
 
 .header {
-  color: #6d6e71;
+  color: #989898;
 }
 
 .top-container {
@@ -45,13 +45,13 @@ h2 {
   flex-direction: column;
   height: 25vh;
   padding-bottom: 30px;
-  background: #e5f3f2;
+  background: #011f4b;
 }
 
 .save-button {
-  background: #00a79d;
   border: none;
   color: #fff;
+  border: 1px ridge white;
 }
 
 .save-button:disabled {
@@ -59,7 +59,7 @@ h2 {
 }
 
 .save-button:hover {
-  background: #045e55;
+  background: #005b96;
 }
 
 input,
@@ -167,8 +167,9 @@ p {
   color: #6d6e71;
 }
 
-/*media queries*/
-
+/*=======================================
+>>>>>>>>  MEDIA QUERIES  <<<<<<<<
+========================================*/
 @media (max-width: 700px) {
  input,
  textarea,
