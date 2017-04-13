@@ -3,16 +3,16 @@
 }
 
 body {
+  color: #5a5c5e;
   font-family: 'Open Sans', sans-serif;
-  color: #939598;
 }
 
 header {
+  align-items: center;
+  background: #011f4b;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 40px 0;
-  background: #e5f3f2;
 }
 
 label {
@@ -20,37 +20,37 @@ label {
 }
 
 h1 {
+  color: #6497b1;
   font-family: 'Roboto Slab', serif;
-  font-size: 40px;
-  color: #00a79d;
+  font-size: 50px;
 }
 
 h2 {
-  display: inline-block;
-  width: 90%;
-  padding-bottom: 15px;
   color: #6d6e71;
+  display: inline-block;
   font-family: 'Roboto Slab', serif;
   font-size: 22px;
+  padding-bottom: 15px;
+  width: 90%;
 }
 
 .header {
-  color: #6d6e71;
+  color: #989898;
 }
 
 .top-container {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
+  background: #011f4b;
+  display: flex;
   flex-direction: column;
   height: 25vh;
+  justify-content: space-between;
   padding-bottom: 30px;
-  background: #e5f3f2;
 }
 
 .save-button {
-  background: #00a79d;
   border: none;
+  border: 1px ridge white;
   color: #fff;
 }
 
@@ -59,17 +59,17 @@ h2 {
 }
 
 .save-button:hover {
-  background: #045e55;
+  background: #005b96;
 }
 
 input,
 textarea,
 .save-button {
-  max-width: 750px;
-  width: 60%;
-  height: 35px;
-  padding-left: 5px;
   font-size: 24px;
+  height: 35px;
+  max-width: 750px;
+  padding-left: 5px;
+  width: 60%;
 }
 
 input,
@@ -82,26 +82,26 @@ textarea {
 }
 
 .card-container {
-  display: flex;
   align-items: center;
-  justify-content: center;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .filter-container {
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding-top: 30px;
 }
 
 .idea-card {
-  max-width: 750px;
-  width: 60%;
   border-bottom: 1px solid #d1d3d4;
+  max-width: 750px;
   padding-bottom: 10px;
   padding-top: 30px;
   overflow-wrap: break-word;
+  width: 60%;
   word-wrap: break-word;
   word-break: break-all;
   word-break: break-word;
@@ -110,16 +110,16 @@ textarea {
 .delete,
 .up-vote,
 .down-vote {
-  width: 25px;
-  height: 25px;
   border: none;
+  height: 25px;
+  width: 25px;
 }
 
 .delete {
-  float: right;
-  vertical-align: top;
   background: url("assets/delete.svg") no-repeat;
   background-size: cover;
+  float: right;
+  vertical-align: top;
 }
 
 .delete:hover {
@@ -132,9 +132,9 @@ p {
 }
 
 .up-vote {
-  margin-right: 10px;
   background: url("assets/upvote.svg") no-repeat;
   background-size: cover;
+  margin-right: 10px;
 }
 
 .up-vote:hover {
@@ -143,9 +143,9 @@ p {
 }
 
 .down-vote {
-  margin-right: 10px;
   background: url("assets/downvote.svg") no-repeat;
   background-size: cover;
+  margin-right: 10px;
 }
 
 .down-vote:hover {
@@ -163,12 +163,13 @@ p {
 }
 
 .quality-font {
-  font-family: 'Roboto Slab', serif;
   color: #6d6e71;
+  font-family: 'Roboto Slab', serif;
 }
 
-/*media queries*/
-
+/*=======================================
+>>>>>>>>  MEDIA QUERIES  <<<<<<<<
+========================================*/
 @media (max-width: 700px) {
  input,
  textarea,
